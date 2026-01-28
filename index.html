@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Sistema de Avaliação - Fisio & Pilates</title>
+<title>Avaliação Fisio & Pilates</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{font-family:Arial;background:#f4f6fb;padding:20px}
@@ -11,9 +11,9 @@ h1{text-align:center}
 .menu button{flex:1;padding:12px;border:none;border-radius:6px;background:#4b3fd1;color:#fff}
 section{background:#fff;padding:20px;border-radius:8px}
 .hidden{display:none}
-label{font-weight:bold;display:block;margin-top:10px}
-input,textarea,select{width:100%;padding:8px;margin-top:5px}
-textarea{min-height:70px}
+label{font-weight:bold;margin-top:10px;display:block}
+select,input,textarea{width:100%;padding:8px;margin-top:5px}
+textarea{min-height:60px}
 .card{background:#f1f1f1;padding:15px;border-radius:6px;margin-bottom:10px}
 hr{margin:25px 0}
 </style>
@@ -21,7 +21,7 @@ hr{margin:25px 0}
 
 <body>
 
-<h1>Avaliação Fisioterapia & Pilates</h1>
+<h1>Sistema de Avaliação</h1>
 
 <div class="menu">
   <button onclick="show('form')">Nova Avaliação</button>
@@ -32,54 +32,108 @@ hr{margin:25px 0}
 
 <label>Tipo de Avaliação</label>
 <select id="tipo" onchange="trocarTipo()">
-  <option value="fisioterapia">Fisioterapia</option>
   <option value="pilates">Pilates</option>
+  <option value="fisioterapia">Fisioterapia</option>
 </select>
 
 <hr>
 
 <h2>Identificação</h2>
 <label>Nome</label><input id="nome">
-<label>Data da Avaliação</label><input type="date" id="data">
-<label>Data de Nascimento</label><input id="nasc">
+<label>Data</label><input type="date" id="data">
 <label>Telefone</label><input id="tel">
 
-<!-- ================== FISIOTERAPIA ================== -->
-<div id="fisio">
+<!-- ================= PILATES ================= -->
+<div id="pilates">
 
-<hr>
-<h2>Fisioterapia — História Clínica</h2>
-<label>Queixa Principal</label><textarea id="fisio_queixa"></textarea>
-<label>HPP</label><textarea id="fisio_hpp"></textarea>
-<label>Antecedentes Pessoais</label><textarea id="fisio_antP"></textarea>
+<h2>Pilates – Avaliação</h2>
 
-<hr>
-<h2>Fisioterapia — Avaliação</h2>
-<label>Diagnóstico Fisioterapêutico</label><textarea id="fisio_diag"></textarea>
-<label>MIT</label><textarea id="fisio_mit"></textarea>
-<label>Dor (EVA)</label><input id="fisio_eva">
-<label>Plano Terapêutico</label><textarea id="fisio_plano"></textarea>
-<label>Evolução</label><textarea id="fisio_evolucao"></textarea>
+<label>Convênio</label>
+<select id="pil_conv">
+  <option>Particular</option>
+  <option>Gympass</option>
+  <option>TotalPass</option>
+  <option>Outro</option>
+</select>
+<label>Observações</label><textarea id="pil_conv_obs"></textarea>
+
+<label>Objetivo com Pilates</label>
+<select id="pil_obj">
+  <option>Dor</option>
+  <option>Condicionamento</option>
+  <option>Reabilitação</option>
+  <option>Prevenção</option>
+</select>
+<label>Observações</label><textarea id="pil_obj_obs"></textarea>
+
+<label>Avaliação Postural</label>
+<select id="pil_post">
+  <option>Alinhado</option>
+  <option>Assimetria</option>
+</select>
+<label>Observações</label><textarea id="pil_post_obs"></textarea>
+
+<label>Equilíbrio</label>
+<select id="pil_eq">
+  <option>Bom</option>
+  <option>Regular</option>
+  <option>Ruim</option>
+</select>
+<label>Observações</label><textarea id="pil_eq_obs"></textarea>
+
+<label>Dor (EVA)</label>
+<select id="pil_eva">
+  <option>0–2</option>
+  <option>3–5</option>
+  <option>6–8</option>
+  <option>9–10</option>
+</select>
+<label>Observações</label><textarea id="pil_eva_obs"></textarea>
+
+<label>Plano Terapêutico</label><textarea id="pil_plano"></textarea>
+<label>Evolução</label><textarea id="pil_evolucao"></textarea>
 
 </div>
 
-<!-- ================== PILATES ================== -->
-<div id="pilates" class="hidden">
+<!-- ================= FISIOTERAPIA ================= -->
+<div id="fisioterapia" class="hidden">
 
-<hr>
-<h2>Pilates — Avaliação Física</h2>
-<label>Convênio</label><input id="pil_conv">
-<label>Peso</label><input id="pil_peso">
-<label>Altura</label><input id="pil_altura">
-<label>Pressão Arterial</label><input id="pil_pa">
+<h2>Fisioterapia – Avaliação</h2>
 
-<hr>
-<h2>Pilates — Funcional</h2>
-<label>Avaliação Postural</label><textarea id="pil_postura"></textarea>
-<label>Testes Funcionais</label><textarea id="pil_testes"></textarea>
-<label>Objetivos com Pilates</label><textarea id="pil_obj"></textarea>
-<label>Plano Terapêutico</label><textarea id="pil_plano"></textarea>
-<label>Evolução</label><textarea id="pil_evolucao"></textarea>
+<label>Queixa Principal</label>
+<select id="fis_queixa">
+  <option>Dor</option>
+  <option>Limitação funcional</option>
+  <option>Pós-operatório</option>
+</select>
+<label>Observações</label><textarea id="fis_queixa_obs"></textarea>
+
+<label>Diagnóstico Fisioterapêutico</label>
+<select id="fis_diag">
+  <option>Musculoesquelético</option>
+  <option>Neurológico</option>
+  <option>Funcional</option>
+</select>
+<label>Observações</label><textarea id="fis_diag_obs"></textarea>
+
+<label>MIT</label>
+<select id="fis_mit">
+  <option>Preservado</option>
+  <option>Alterado</option>
+</select>
+<label>Observações</label><textarea id="fis_mit_obs"></textarea>
+
+<label>Dor (EVA)</label>
+<select id="fis_eva">
+  <option>0–2</option>
+  <option>3–5</option>
+  <option>6–8</option>
+  <option>9–10</option>
+</select>
+<label>Observações</label><textarea id="fis_eva_obs"></textarea>
+
+<label>Plano Terapêutico</label><textarea id="fis_plano"></textarea>
+<label>Evolução</label><textarea id="fis_evolucao"></textarea>
 
 </div>
 
@@ -112,17 +166,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const lista = document.getElementById("lista");
-const conteudo = document.getElementById("conteudo");
-
 window.show = id => {
   ["form","pacientes","prontuario"].forEach(s=>document.getElementById(s).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
 };
 
 window.trocarTipo = () => {
-  fisio.classList.add("hidden");
   pilates.classList.add("hidden");
+  fisioterapia.classList.add("hidden");
   document.getElementById(tipo.value).classList.remove("hidden");
 };
 
@@ -131,27 +182,23 @@ window.salvar = () => {
   const t = tipo.value;
   const r = push(ref(db,`pacientes/${id}/avaliacoes/${t}`));
 
-  const dados = t==="fisioterapia" ? {
+  const dados = t==="pilates" ? {
     data:data.value,
-    queixa:fisio_queixa.value,
-    hpp:fisio_hpp.value,
-    antP:fisio_antP.value,
-    diag:fisio_diag.value,
-    mit:fisio_mit.value,
-    eva:fisio_eva.value,
-    plano:fisio_plano.value,
-    evolucao:fisio_evolucao.value
-  } : {
-    data:data.value,
-    convenio:pil_conv.value,
-    peso:pil_peso.value,
-    altura:pil_altura.value,
-    pa:pil_pa.value,
-    postura:pil_postura.value,
-    testes:pil_testes.value,
-    obj:pil_obj.value,
+    conv:pil_conv.value,conv_obs:pil_conv_obs.value,
+    obj:pil_obj.value,obj_obs:pil_obj_obs.value,
+    post:pil_post.value,post_obs:pil_post_obs.value,
+    eq:pil_eq.value,eq_obs:pil_eq_obs.value,
+    eva:pil_eva.value,eva_obs:pil_eva_obs.value,
     plano:pil_plano.value,
     evolucao:pil_evolucao.value
+  } : {
+    data:data.value,
+    queixa:fis_queixa.value,queixa_obs:fis_queixa_obs.value,
+    diag:fis_diag.value,diag_obs:fis_diag_obs.value,
+    mit:fis_mit.value,mit_obs:fis_mit_obs.value,
+    eva:fis_eva.value,eva_obs:fis_eva_obs.value,
+    plano:fis_plano.value,
+    evolucao:fis_evolucao.value
   };
 
   set(r,dados);
@@ -164,7 +211,7 @@ onValue(ref(db,"pacientes"),snap=>{
     lista.innerHTML+=`
       <div class="card">
         <b>${p.key.replace(/_/g," ")}</b><br>
-        <button onclick="ver('${p.key}')">Ver prontuário</button>
+        <button onclick="ver('${p.key}')">Ver histórico</button>
       </div>`;
   });
 });
@@ -173,7 +220,7 @@ window.ver = id => {
   conteudo.innerHTML=`<h2>${id.replace(/_/g," ")}</h2>`;
   onValue(ref(db,"pacientes/"+id+"/avaliacoes"),snap=>{
     snap.forEach(tipo=>{
-      conteudo.innerHTML+=`<h3>${tipo.key.toUpperCase()}</h3>`;
+      conteudo.innerHTML+=`<h3>${tipo.key}</h3>`;
       tipo.forEach(a=>{
         const d=a.val();
         conteudo.innerHTML+=`
