@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Prontuário Fisioterapêutico</title>
+<title>Sistema de Avaliação - Fisio & Pilates</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{font-family:Arial;background:#f4f6fb;padding:20px}
 h1{text-align:center}
 .menu{display:flex;gap:10px;margin-bottom:20px}
-.menu button{flex:1;padding:12px;border:none;border-radius:6px;background:#4b3fd1;color:#fff;font-size:15px}
+.menu button{flex:1;padding:12px;border:none;border-radius:6px;background:#4b3fd1;color:#fff}
 section{background:#fff;padding:20px;border-radius:8px}
 .hidden{display:none}
 label{font-weight:bold;display:block;margin-top:10px}
@@ -21,74 +21,67 @@ hr{margin:25px 0}
 
 <body>
 
-<h1>Prontuário Fisioterapêutico</h1>
+<h1>Avaliação Fisioterapia & Pilates</h1>
 
 <div class="menu">
-  <button onclick="show('form')">Avaliação</button>
+  <button onclick="show('form')">Nova Avaliação</button>
   <button onclick="show('pacientes')">Pacientes</button>
 </div>
 
 <section id="form">
 
+<label>Tipo de Avaliação</label>
+<select id="tipo" onchange="trocarTipo()">
+  <option value="fisioterapia">Fisioterapia</option>
+  <option value="pilates">Pilates</option>
+</select>
+
+<hr>
+
 <h2>Identificação</h2>
 <label>Nome</label><input id="nome">
 <label>Data da Avaliação</label><input type="date" id="data">
 <label>Data de Nascimento</label><input id="nasc">
-<label>CPF</label><input id="cpf">
-<label>Sexo</label>
-<select id="sexo"><option></option><option>Feminino</option><option>Masculino</option></select>
-<label>Profissão</label><input id="prof">
-<label>Endereço</label><input id="end">
 <label>Telefone</label><input id="tel">
-<label>Email</label><input id="email">
+
+<!-- ================== FISIOTERAPIA ================== -->
+<div id="fisio">
 
 <hr>
-<h2>Diagnóstico</h2>
-<label>Diagnóstico Clínico</label><textarea id="diagClin"></textarea>
-<label>Diagnóstico Fisioterapêutico</label><textarea id="diagFis"></textarea>
+<h2>Fisioterapia — História Clínica</h2>
+<label>Queixa Principal</label><textarea id="fisio_queixa"></textarea>
+<label>HPP</label><textarea id="fisio_hpp"></textarea>
+<label>Antecedentes Pessoais</label><textarea id="fisio_antP"></textarea>
 
 <hr>
-<h2>História Clínica</h2>
-<label>Queixa Principal</label><textarea id="queixa"></textarea>
-<label>História da Patologia Atual (HPP)</label><textarea id="hpp"></textarea>
-<label>Antecedentes Pessoais</label><textarea id="antP"></textarea>
-<label>Antecedentes Familiares</label><textarea id="antF"></textarea>
-<label>Hábitos de Vida</label><textarea id="hab"></textarea>
+<h2>Fisioterapia — Avaliação</h2>
+<label>Diagnóstico Fisioterapêutico</label><textarea id="fisio_diag"></textarea>
+<label>MIT</label><textarea id="fisio_mit"></textarea>
+<label>Dor (EVA)</label><input id="fisio_eva">
+<label>Plano Terapêutico</label><textarea id="fisio_plano"></textarea>
+<label>Evolução</label><textarea id="fisio_evolucao"></textarea>
+
+</div>
+
+<!-- ================== PILATES ================== -->
+<div id="pilates" class="hidden">
 
 <hr>
-<h2>Exames / Medicamentos / Cirurgia</h2>
-<label>Exames Complementares</label><textarea id="exames"></textarea>
-<label>Medicamentos</label><textarea id="med"></textarea>
-<label>Cirurgia Prévia</label><textarea id="cir"></textarea>
+<h2>Pilates — Avaliação Física</h2>
+<label>Convênio</label><input id="pil_conv">
+<label>Peso</label><input id="pil_peso">
+<label>Altura</label><input id="pil_altura">
+<label>Pressão Arterial</label><input id="pil_pa">
 
 <hr>
-<h2>Inspeção / Semiologia</h2>
-<label>Inspeção / Palpação</label><textarea id="insp"></textarea>
-<label>Semiologia</label><textarea id="semio"></textarea>
+<h2>Pilates — Funcional</h2>
+<label>Avaliação Postural</label><textarea id="pil_postura"></textarea>
+<label>Testes Funcionais</label><textarea id="pil_testes"></textarea>
+<label>Objetivos com Pilates</label><textarea id="pil_obj"></textarea>
+<label>Plano Terapêutico</label><textarea id="pil_plano"></textarea>
+<label>Evolução</label><textarea id="pil_evolucao"></textarea>
 
-<hr>
-<h2>MIT</h2>
-<label>Ombro</label><textarea id="mitOmbro"></textarea>
-<label>Joelho</label><textarea id="mitJoelho"></textarea>
-<label>Quadril</label><textarea id="mitQuadril"></textarea>
-<label>Tornozelo</label><textarea id="mitTornozelo"></textarea>
-<label>Coluna</label><textarea id="mitColuna"></textarea>
-<label>Observações MIT</label><textarea id="mitObs"></textarea>
-
-<hr>
-<h2>Dor</h2>
-<label>Região</label><input id="dorReg">
-<label>EVA</label><input id="dorEva">
-
-<hr>
-<h2>Plano Terapêutico</h2>
-<label>Objetivos</label><textarea id="obj"></textarea>
-<label>Recursos</label><textarea id="rec"></textarea>
-<label>Plano de Tratamento</label><textarea id="plano"></textarea>
-
-<hr>
-<h2>Evolução</h2>
-<label>Evolução do atendimento</label><textarea id="evolucao"></textarea>
+</div>
 
 <button onclick="salvar()">Salvar Avaliação</button>
 </section>
@@ -127,25 +120,42 @@ window.show = id => {
   document.getElementById(id).classList.remove("hidden");
 };
 
+window.trocarTipo = () => {
+  fisio.classList.add("hidden");
+  pilates.classList.add("hidden");
+  document.getElementById(tipo.value).classList.remove("hidden");
+};
+
 window.salvar = () => {
   const id = nome.value.toLowerCase().replace(/\s+/g,"_");
-  const r = push(ref(db,"pacientes/"+id+"/avaliacoes"));
+  const t = tipo.value;
+  const r = push(ref(db,`pacientes/${id}/avaliacoes/${t}`));
 
-  set(r,{
+  const dados = t==="fisioterapia" ? {
     data:data.value,
-    timestamp:Date.now(),
-    identificacao:{nasc:nasc.value,cpf:cpf.value,sexo:sexo.value,prof:prof.value,end:end.value,tel:tel.value,email:email.value},
-    diagnostico:{clin:diagClin.value,fisio:diagFis.value},
-    historia:{queixa:queixa.value,hpp:hpp.value,antP:antP.value,antF:antF.value,hab:hab.value},
-    exames:{exames:exames.value,med:med.value,cir:cir.value},
-    inspeção:{insp:insp.value,semio:semio.value},
-    mit:{ombro:mitOmbro.value,joelho:mitJoelho.value,quadril:mitQuadril.value,tornozelo:mitTornozelo.value,coluna:mitColuna.value,obs:mitObs.value},
-    dor:{reg:dorReg.value,eva:dorEva.value},
-    plano:{obj:obj.value,rec:rec.value,plano:plano.value},
-    evolucao:evolucao.value
-  });
+    queixa:fisio_queixa.value,
+    hpp:fisio_hpp.value,
+    antP:fisio_antP.value,
+    diag:fisio_diag.value,
+    mit:fisio_mit.value,
+    eva:fisio_eva.value,
+    plano:fisio_plano.value,
+    evolucao:fisio_evolucao.value
+  } : {
+    data:data.value,
+    convenio:pil_conv.value,
+    peso:pil_peso.value,
+    altura:pil_altura.value,
+    pa:pil_pa.value,
+    postura:pil_postura.value,
+    testes:pil_testes.value,
+    obj:pil_obj.value,
+    plano:pil_plano.value,
+    evolucao:pil_evolucao.value
+  };
 
-  alert("Avaliação salva");
+  set(r,dados);
+  alert("Avaliação salva!");
 };
 
 onValue(ref(db,"pacientes"),snap=>{
@@ -160,20 +170,19 @@ onValue(ref(db,"pacientes"),snap=>{
 });
 
 window.ver = id => {
-  const r = ref(db,"pacientes/"+id+"/avaliacoes");
-  conteudo.innerHTML = `<h2>${id.replace(/_/g," ")}</h2>`;
-  onValue(r,snap=>{
-    conteudo.innerHTML = `<h2>${id.replace(/_/g," ")}</h2>`;
-    snap.forEach(a=>{
-      const d=a.val();
-      conteudo.innerHTML+=`
-        <div class="card">
-          <b>Data:</b> ${d.data}<br>
-          <b>Queixa:</b> ${d.historia.queixa}<br>
-          <b>Diagnóstico Fisio:</b> ${d.diagnostico.fisio}<br>
-          <b>Plano:</b> ${d.plano.plano}<br>
-          <b>Evolução:</b> ${d.evolucao}
-        </div>`;
+  conteudo.innerHTML=`<h2>${id.replace(/_/g," ")}</h2>`;
+  onValue(ref(db,"pacientes/"+id+"/avaliacoes"),snap=>{
+    snap.forEach(tipo=>{
+      conteudo.innerHTML+=`<h3>${tipo.key.toUpperCase()}</h3>`;
+      tipo.forEach(a=>{
+        const d=a.val();
+        conteudo.innerHTML+=`
+          <div class="card">
+            <b>Data:</b> ${d.data}<br>
+            <b>Plano:</b> ${d.plano}<br>
+            <b>Evolução:</b> ${d.evolucao}
+          </div>`;
+      });
     });
     show("prontuario");
   },{onlyOnce:true});
