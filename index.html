@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Prontuário Fisioterapêutico</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Arial;background:#f4f6fb;padding:20px}
+h1{text-align:center}
+.menu{display:flex;gap:10px;margin-bottom:20px}
+.menu button{flex:1;padding:12px;border:none;border-radius:6px;background:#4b3fd1;color:#fff;font-size:15px}
+section{background:#fff;padding:20px;border-radius:8px}
+.hidden{display:none}
+label{font-weight:bold;display:block;margin-top:10px}
+input,textarea,select{width:100%;padding:8px;margin-top:5px}
+textarea{min-height:70px}
+.card{background:#f1f1f1;padding:15px;border-radius:6px;margin-bottom:10px}
+hr{margin:25px 0}
+</style>
+</head>
+
+<body>
+
+<h1>Prontuário Fisioterapêutico</h1>
+
+<div class="menu">
+  <button onclick="show('form')">Avaliação</button>
+  <button onclick="show('pacientes')">Pacientes</button>
+</div>
+
+<section id="form">
+
+<h2>Identificação</h2>
+<label>Nome</label><input id="nome">
+<label>Data da Avaliação</label><input type="date" id="data">
+<label>Data de Nascimento</label><input id="nasc">
+<label>CPF</label><input id="cpf">
+<label>Sexo</label>
+<select id="sexo"><option></option><option>Feminino</option><option>Masculino</option></select>
+<label>Profissão</label><input id="prof">
+<label>Endereço</label><input id="end">
+<label>Telefone</label><input id="tel">
+<label>Email</label><input id="email">
+
+<hr>
+<h2>Diagnóstico</h2>
+<label>Diagnóstico Clínico</label><textarea id="diagClin"></textarea>
+<label>Diagnóstico Fisioterapêutico</label><textarea id="diagFis"></textarea>
+
+<hr>
+<h2>História Clínica</h2>
+<label>Queixa Principal</label><textarea id="queixa"></textarea>
+<label>História da Patologia Atual (HPP)</label><textarea id="hpp"></textarea>
+<label>Antecedentes Pessoais</label><textarea id="antP"></textarea>
+<label>Antecedentes Familiares</label><textarea id="antF"></textarea>
+<label>Hábitos de Vida</label><textarea id="hab"></textarea>
+
+<hr>
+<h2>Exames / Medicamentos / Cirurgia</h2>
+<label>Exames Complementares</label><textarea id="exames"></textarea>
+<label>Medicamentos</label><textarea id="med"></textarea>
+<label>Cirurgia Prévia</label><textarea id="cir"></textarea>
+
+<hr>
+<h2>Inspeção / Semiologia</h2>
+<label>Inspeção / Palpação</label><textarea id="insp"></textarea>
+<label>Semiologia</label><textarea id="semio"></textarea>
+
+<hr>
+<h2>MIT</h2>
+<label>Ombro</label><textarea id="mitOmbro"></textarea>
+<label>Joelho</label><textarea id="mitJoelho"></textarea>
+<label>Quadril</label><textarea id="mitQuadril"></textarea>
+<label>Tornozelo</label><textarea id="mitTornozelo"></textarea>
+<label>Coluna</label><textarea id="mitColuna"></textarea>
+<label>Observações MIT</label><textarea id="mitObs"></textarea>
+
+<hr>
+<h2>Dor</h2>
+<label>Região</label><input id="dorReg">
+<label>EVA</label><input id="dorEva">
+
+<hr>
+<h2>Plano Terapêutico</h2>
+<label>Objetivos</label><textarea id="obj"></textarea>
+<label>Recursos</label><textarea id="rec"></textarea>
+<label>Plano de Tratamento</label><textarea id="plano"></textarea>
+
+<hr>
+<h2>Evolução</h2>
+<label>Evolução do atendimento</label><textarea id="evolucao"></textarea>
+
+<button onclick="salvar()">Salvar Avaliação</button>
+</section>
+
+<section id="pacientes" class="hidden">
+  <div id="lista"></div>
+</section>
+
+<section id="prontuario" class="hidden">
+  <button onclick="show('pacientes')">⬅ Voltar</button>
+  <div id="conteudo"></div>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAfi6m9kx0DumrsxSDA8tYeSi3hcDGj9r4",
+  authDomain: "avaliafisio-45711.firebaseapp.com",
+  databaseURL: "https://avaliafisio-45711-default-rtdb.firebaseio.com",
+  projectId: "avaliafisio-45711",
+  storageBucket: "avaliafisio-45711.firebasestorage.app",
+  messagingSenderId: "195334619216",
+  appId: "1:195334619216:web:fb78abeeef1de60d4ed155"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const lista = document.getElementById("lista");
+const conteudo = document.getElementById("conteudo");
+
+window.show = id => {
+  ["form","pacientes","prontuario"].forEach(s=>document.getElementById(s).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+};
+
+window.salvar = () => {
+  const id = nome.value.toLowerCase().replace(/\s+/g,"_");
+  const r = push(ref(db,"pacientes/"+id+"/avaliacoes"));
+
+  set(r,{
+    data:data.value,
+    timestamp:Date.now(),
+    identificacao:{nasc:nasc.value,cpf:cpf.value,sexo:sexo.value,prof:prof.value,end:end.value,tel:tel.value,email:email.value},
+    diagnostico:{clin:diagClin.value,fisio:diagFis.value},
+    historia:{queixa:queixa.value,hpp:hpp.value,antP:antP.value,antF:antF.value,hab:hab.value},
+    exames:{exames:exames.value,med:med.value,cir:cir.value},
+    inspeção:{insp:insp.value,semio:semio.value},
+    mit:{ombro:mitOmbro.value,joelho:mitJoelho.value,quadril:mitQuadril.value,tornozelo:mitTornozelo.value,coluna:mitColuna.value,obs:mitObs.value},
+    dor:{reg:dorReg.value,eva:dorEva.value},
+    plano:{obj:obj.value,rec:rec.value,plano:plano.value},
+    evolucao:evolucao.value
+  });
+
+  alert("Avaliação salva");
+};
+
+onValue(ref(db,"pacientes"),snap=>{
+  lista.innerHTML="";
+  snap.forEach(p=>{
+    lista.innerHTML+=`
+      <div class="card">
+        <b>${p.key.replace(/_/g," ")}</b><br>
+        <button onclick="ver('${p.key}')">Ver prontuário</button>
+      </div>`;
+  });
+});
+
+window.ver = id => {
+  const r = ref(db,"pacientes/"+id+"/avaliacoes");
+  conteudo.innerHTML = `<h2>${id.replace(/_/g," ")}</h2>`;
+  onValue(r,snap=>{
+    conteudo.innerHTML = `<h2>${id.replace(/_/g," ")}</h2>`;
+    snap.forEach(a=>{
+      const d=a.val();
+      conteudo.innerHTML+=`
+        <div class="card">
+          <b>Data:</b> ${d.data}<br>
+          <b>Queixa:</b> ${d.historia.queixa}<br>
+          <b>Diagnóstico Fisio:</b> ${d.diagnostico.fisio}<br>
+          <b>Plano:</b> ${d.plano.plano}<br>
+          <b>Evolução:</b> ${d.evolucao}
+        </div>`;
+    });
+    show("prontuario");
+  },{onlyOnce:true});
+};
+</script>
+
+</body>
+</html>
